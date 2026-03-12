@@ -1,32 +1,32 @@
 # Installation | 安装
 
-Getting OpenClaw installed on your machine.
+A minimal install guide that stays close to the real OpenClaw CLI.
 
-在你的机器上安装 OpenClaw。
+尽量贴近真实 OpenClaw CLI 的最小安装指南。
 
 ---
 
-## Requirements | 前置要求
+## 1. Requirements | 前置要求
 
-- **Node.js ≥22** (required | 必须)
-- macOS, Linux, or Windows
+OpenClaw currently expects **Node.js 22+**.
 
-Check your Node version:
+OpenClaw 目前要求 **Node.js 22+**。
 
-检查 Node 版本：
+Check:
 
 ```bash
 node --version
-# Should be v22.x.x or higher
 ```
 
-If you need to upgrade Node, use [nvm](https://github.com/nvm-sh/nvm) or download from [nodejs.org](https://nodejs.org/).
+If needed, upgrade Node first.
 
-如果需要升级 Node，使用 [nvm](https://github.com/nvm-sh/nvm) 或从 [nodejs.org](https://nodejs.org/) 下载。
+如果版本太低，先升级 Node。
 
-## Installation | 安装
+---
 
-### npm (Recommended | 推荐)
+## 2. Install the CLI | 安装 CLI
+
+### npm
 
 ```bash
 npm install -g openclaw@latest
@@ -38,132 +38,203 @@ npm install -g openclaw@latest
 pnpm add -g openclaw@latest
 ```
 
-## Initial Setup | 初始设置
-
-After installing, run the onboarding wizard:
-
-安装后，运行引导向导：
+Then verify:
 
 ```bash
-openclaw onboard --install-daemon
-```
-
-The `--install-daemon` flag installs a background service (launchd on macOS, systemd on Linux) so the Gateway stays running.
-
-`--install-daemon` 参数会安装后台服务（macOS 上是 launchd，Linux 上是 systemd），让 Gateway 保持运行。
-
-### What the wizard does | 向导做了什么
-
-1. Sets up the **Gateway** (local WebSocket control plane, default port 18789)
-2. Configures your **workspace** directory
-3. Connects **chat channels** (WhatsApp, Telegram, Discord, Slack, etc.)
-4. Installs **skills** (optional capabilities)
-5. Configures **model authentication** (OpenAI, Anthropic, Mistral, etc.)
-
-### Wizard options | 向导选项
-
-```bash
-# Quick setup with defaults
-openclaw onboard --flow quickstart
-
-# Full control over every option
-openclaw onboard --flow advanced
-
-# Non-interactive (for scripts/automation)
-openclaw onboard --non-interactive
-```
-
-## Verifying Installation | 验证安装
-
-```bash
-# Check version
 openclaw --version
+openclaw help
+```
 
-# Run health checks
+---
+
+## 3. Run onboarding | 运行引导向导
+
+The safest default is just:
+
+最稳妥的默认做法就是：
+
+```bash
+openclaw onboard
+```
+
+Useful variants:
+
+```bash
+openclaw onboard --flow quickstart
+openclaw onboard --install-daemon
+openclaw onboard --flow manual
+```
+
+### What onboarding does | onboard 会做什么
+
+It can help you configure:
+
+- Gateway
+- workspace
+- model authentication
+- channels (Telegram / WhatsApp / Discord / etc.)
+- optional skills
+
+它会帮你配置：
+
+- Gateway
+- workspace
+- 模型认证
+- 渠道（Telegram / WhatsApp / Discord 等）
+- 可选 skills
+
+---
+
+## 4. Verify that it works | 验证是否正常
+
+These are the first commands worth running:
+
+```bash
+openclaw status
 openclaw doctor
-
-# Check Gateway status
 openclaw gateway status
 ```
 
-If `openclaw doctor` shows all green, you're good to go.
+If you want a broad overview, `openclaw status` is a great starting point.
 
-如果 `openclaw doctor` 全部显示绿色，说明安装成功。
+如果你想快速看全局状态，`openclaw status` 很有用。
 
-## Updating | 更新
+---
+
+## 5. Fastest first interaction | 最快的首次体验方式
+
+A lot of people expect a magical chat command first.
+In practice, the easiest first step is often:
+
+很多人一开始会找一个“直接聊天”的命令。
+实际上，最快上手通常是：
 
 ```bash
-openclaw update
+openclaw dashboard
 ```
 
-Or specify a channel:
+That opens the Control UI.
 
-或指定更新通道：
+它会打开 Control UI。
 
-```bash
-openclaw update --channel stable  # stable, beta, or dev
-```
+You can also run one CLI turn with:
 
-## Uninstalling | 卸载
+你也可以用下面这个命令跑一轮 CLI agent：
 
 ```bash
-# Remove service and data
-openclaw uninstall --all
-
-# Or selectively
-openclaw uninstall --service    # Just the daemon
-openclaw uninstall --state      # Local state
-openclaw uninstall --workspace  # Workspace files
-```
-
-Then remove the npm package:
-
-然后删除 npm 包：
-
-```bash
-npm uninstall -g openclaw
+openclaw agent --message "Hello"
 ```
 
 ---
 
-## Common Installation Issues | 常见安装问题
+## 6. Gateway basics | Gateway 基础
 
-### "Node version too old"
+There are two common modes people confuse:
+
+很多人会混淆两种模式：
+
+### Run in foreground | 前台运行
 
 ```bash
-# Check your version
-node --version
-
-# If using nvm, install Node 22+
-nvm install 22
-nvm use 22
+openclaw gateway
+# or
+openclaw gateway run
 ```
 
-### "EACCES permission denied" on npm install
-
-Don't use `sudo`. Fix npm permissions instead:
-
-不要用 `sudo`。修复 npm 权限：
+### Manage the installed service | 管理已安装的后台服务
 
 ```bash
-# Option 1: Use nvm (recommended)
-# Option 2: Change npm's default directory
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
-# Add to PATH in .bashrc/.zshrc:
-export PATH=~/.npm-global/bin:$PATH
+openclaw gateway status
+openclaw gateway start
+openclaw gateway stop
+openclaw gateway restart
 ```
 
-### Gateway won't start
+> Common mistake: many people write `openclaw gateway service start`.
+> That is not the command form you should teach beginners first.
+
+> 常见错误：很多人会写成 `openclaw gateway service start`。
+> 这不是最适合教新手的命令形式。
+
+---
+
+## 7. Config file location | 配置文件位置
+
+The active config file is usually:
+
+当前配置文件通常在：
+
+```text
+~/.openclaw/openclaw.json
+```
+
+To print the exact path on your machine:
+
+想打印你机器上的准确路径：
 
 ```bash
-# Check if port 18789 is in use
-lsof -i :18789
-
-# Try a different port
-openclaw gateway --port 18790
+openclaw config file
 ```
 
 ---
 
-Next: [Configuration](configuration.md) | 下一步：[配置](configuration.md)
+## 8. Recommended sanity check list | 推荐的自检清单
+
+After install, I would personally check these in order:
+
+安装完后，我会按这个顺序检查：
+
+```bash
+openclaw --version
+openclaw status
+openclaw doctor
+openclaw config file
+openclaw gateway status
+```
+
+---
+
+## 9. A few easy-to-miss pitfalls | 几个很容易踩的坑
+
+### Pitfall 1: PATH problem
+
+If `openclaw` is not found after install, your npm global bin is probably not in PATH.
+
+如果安装后找不到 `openclaw`，大概率是 npm 全局 bin 不在 PATH 里。
+
+### Pitfall 2: Guessing commands from memory
+
+OpenClaw has a lot of subcommands. If unsure, prefer:
+
+OpenClaw 的子命令很多，不确定时优先：
+
+```bash
+openclaw help
+openclaw gateway --help
+openclaw config --help
+openclaw channels --help
+```
+
+### Pitfall 3: Mixing up onboarding and configuration
+
+- `openclaw onboard` = setup wizard / initial guided setup
+- `openclaw configure` = interactive configuration later
+
+- `openclaw onboard` = 初始化引导
+- `openclaw configure` = 后续交互式配置
+
+---
+
+## 10. If something feels wrong | 如果感觉哪里不对
+
+Start with:
+
+```bash
+openclaw doctor
+openclaw status
+openclaw logs --follow
+```
+
+Then read the official docs before trusting random generated commands.
+
+然后优先看官方文档，不要先相信随机生成的命令。
