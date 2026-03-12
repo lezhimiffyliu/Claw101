@@ -47,63 +47,67 @@ This repo tries to follow three rules:
 
 ## Quick Start | 快速开始
 
-### 1. Install OpenClaw | 安装 OpenClaw
+### English
 
 Requires **Node.js 22+**.
 
-需要 **Node.js 22+**。
+1. Install:
 
 ```bash
 npm install -g openclaw@latest
 ```
 
-### 2. Run onboarding | 跑引导向导
+2. Run onboarding:
 
 ```bash
 openclaw onboard
 ```
 
-Common variants:
-
-```bash
-openclaw onboard --flow quickstart
-openclaw onboard --install-daemon
-```
-
-常见变体：
-
-```bash
-openclaw onboard --flow quickstart
-openclaw onboard --install-daemon
-```
-
-### 3. Check your setup | 检查当前状态
-
-```bash
-openclaw status
-openclaw doctor
-openclaw gateway status
-```
-
-### 4. Fastest way to try it | 最快开始体验
+3. Open the dashboard or run your first command:
 
 ```bash
 openclaw dashboard
+# or
+openclaw agent --message "Hello"
 ```
 
-This opens the Control UI and is usually the fastest first interaction.
+### 中文
 
-这个命令会打开 Control UI，通常是最快的第一次上手方式。
+需要 **Node.js 22+**。
+
+1. 安装：
+
+```bash
+npm install -g openclaw@latest
+```
+
+2. 运行引导向导：
+
+```bash
+openclaw onboard
+```
+
+3. 打开 dashboard，或者直接跑第一条命令：
+
+```bash
+openclaw dashboard
+# 或者
+openclaw agent --message "Hello"
+```
 
 ---
 
 ## What this repo covers | 这个仓库会写什么
+
+### English
 
 - installation that actually matches current OpenClaw
 - verified command usage
 - config file locations and editing tips
 - common mistakes and how to recover
 - bilingual notes for beginners
+
+### 中文
 
 - 与当前 OpenClaw 对得上的安装流程
 - 已核实的命令用法
