@@ -1,243 +1,188 @@
 # Configuration | 配置
 
-How to set up OpenClaw the way you want it.
+This page focuses on the config facts people most often get wrong.
 
-按你的方式配置 OpenClaw。
+这一页专门写那些最容易记错的配置事实。
 
 ---
 
-## Config File Location | 配置文件位置
+## 1. Config file location | 配置文件位置
 
-OpenClaw uses a single JSON5 config file:
+The active config file is usually:
 
-OpenClaw 使用单个 JSON5 配置文件：
+当前配置文件通常在：
 
-```
+```text
 ~/.openclaw/openclaw.json
 ```
 
-You can also use `--dev` or `--profile <name>` to isolate state:
+To print the real path on your current machine:
 
-你也可以用 `--dev` 或 `--profile <name>` 来隔离配置：
-
-```bash
-openclaw --dev gateway          # Uses ~/.openclaw-dev/
-openclaw --profile work gateway # Uses ~/.openclaw-work/
-```
-
-## Interactive Configuration | 交互式配置
-
-The easiest way to configure OpenClaw:
-
-最简单的配置方式：
+想打印当前机器上的真实路径：
 
 ```bash
-# Full interactive wizard
-openclaw configure
-
-# Or reconfigure specific parts
-openclaw onboard --reset-scope
-```
-
-## Reading and Writing Config | 读写配置
-
-### View config | 查看配置
-
-```bash
-# Get a specific value
-openclaw config get gateway.port
-
-# Print config file path
 openclaw config file
-
-# Validate config
-openclaw config validate
 ```
 
-### Set config | 设置配置
+This is better than guessing.
+
+这个比靠记忆猜要靠谱得多。
+
+---
+
+## 2. Is it JSON or JSON5? | 它到底是 JSON 还是 JSON5？
+
+The file path is `openclaw.json`, but OpenClaw config tooling supports JSON5-style parsing in many places.
+
+文件名是 `openclaw.json`，但 OpenClaw 的配置工具在很多地方支持 JSON5 风格解析。
+
+Practical advice:
+
+实用建议：
+
+- treat the file as OpenClaw config, not “just random JSON”
+- use `openclaw config validate` after edits
+
+- 把它当成 OpenClaw 配置文件，而不是“普通 JSON”
+- 改完后跑 `openclaw config validate`
+
+---
+
+## 3. Read config values | 读取配置
 
 ```bash
-# Set a value
-openclaw config set gateway.port 18790
-
-# Remove a value
-openclaw config unset gateway.tailscale
-```
-
-## Gateway Settings | Gateway 设置
-
-The Gateway is the local WebSocket control plane that connects everything.
-
-Gateway 是连接一切的本地 WebSocket 控制平面。
-
-```json5
-{
-  "gateway": {
-    "port": 18789,           // Default port
-    "bind": "loopback",      // loopback, tailnet, lan, auto, or custom
-    "auth": {
-      "mode": "token"        // token or password
-    },
-    "tailscale": {
-      "mode": "off"          // off, serve, or funnel
-    }
-  }
-}
-```
-
-### Bind options explained | bind 选项说明
-
-| Value | Description | 说明 |
-|-------|-------------|------|
-| `loopback` | Only localhost (most secure) | 仅本地访问（最安全） |
-| `tailnet` | Accessible via Tailscale | 通过 Tailscale 访问 |
-| `lan` | Local network | 局域网访问 |
-| `auto` | Auto-detect | 自动检测 |
-
-## Model Configuration | 模型配置
-
-### Set up authentication | 设置认证
-
-```bash
-# Interactive setup
-openclaw models auth add
-
-# Or paste a token directly
-openclaw models auth paste-token
-```
-
-### Set primary model | 设置主模型
-
-```bash
-# List available models
-openclaw models list --all
-
-# Set primary model
-openclaw models set claude-3-opus
-
-# Set image model
-openclaw models set-image dall-e-3
-```
-
-### Fallbacks | 备选模型
-
-```bash
-# Add fallback models (used if primary fails)
-openclaw models fallbacks add gpt-4-turbo
-openclaw models fallbacks add claude-3-sonnet
-
-# List fallbacks
-openclaw models fallbacks list
-```
-
-## Channel Configuration | 渠道配置
-
-Channels are how OpenClaw connects to messaging platforms.
-
-渠道是 OpenClaw 连接到消息平台的方式。
-
-```bash
-# Add a new channel
-openclaw channels add
-
-# List configured channels
-openclaw channels list
-
-# Check channel health
-openclaw channels status --probe
-```
-
-### Channel policies | 渠道策略
-
-```json5
-{
-  "channels": {
-    "whatsapp": {
-      "dmPolicy": "pairing",  // pairing or open
-      "allowFrom": []         // Allowlist (empty = all allowed when open)
-    }
-  }
-}
-```
-
-| Policy | Description | 说明 |
-|--------|-------------|------|
-| `pairing` | Requires pairing code approval | 需要配对码批准 |
-| `open` | Anyone can message (use with caution) | 任何人都可以发消息（谨慎使用） |
-
-## Skills Configuration | Skills 配置
-
-Skills are capabilities that extend what OpenClaw can do.
-
-Skills 是扩展 OpenClaw 能力的模块。
-
-```bash
-# List available skills
-openclaw skills list
-
-# Check which are ready vs missing requirements
-openclaw skills check
-
-# Get info about a specific skill
-openclaw skills info browser-control
-```
-
-## Secrets Management | 密钥管理
-
-```bash
-# Audit for plaintext secrets
-openclaw secrets audit
-
-# Configure secret provider
-openclaw secrets configure
-
-# Reload secrets after changes
-openclaw secrets reload
-```
-
-## Useful Config Commands | 实用配置命令
-
-```bash
-# Full security audit
-openclaw security audit --deep
-
-# Fix permissions and security issues
-openclaw security audit --fix
-
-# Validate everything
-openclaw config validate && openclaw doctor
-```
-
-## Pro Tips | 实用技巧
-
-### Separate dev and prod configs | 分离开发和生产配置
-
-```bash
-# Development
-openclaw --dev onboard
-openclaw --dev gateway
-
-# Production
-openclaw gateway
-```
-
-### Backup your config | 备份配置
-
-```bash
-openclaw backup create
-openclaw backup verify
-```
-
-### Reset if things go wrong | 出问题时重置
-
-```bash
-# Reset config only
-openclaw reset --scope config
-
-# Full reset (careful!)
-openclaw reset --scope full
+openclaw config get gateway.port
+openclaw config get agents.defaults.workspace
+openclaw config get channels.telegram.enabled
 ```
 
 ---
 
-Next: [Commands](commands.md) | 下一步：[命令](commands.md)
+## 4. Set / unset config values | 修改 / 删除配置
+
+```bash
+openclaw config set gateway.port 18790
+openclaw config set gateway.bind loopback
+openclaw config unset gateway.tailscale
+```
+
+Then validate:
+
+```bash
+openclaw config validate
+```
+
+---
+
+## 5. Interactive configuration | 交互式配置
+
+If you want guided configuration later:
+
+如果你后面还想用交互式方式重新配置：
+
+```bash
+openclaw configure
+```
+
+For first-time setup, `openclaw onboard` is still the better mental model.
+
+第一次初始化时，还是更推荐把 `openclaw onboard` 当成主入口。
+
+---
+
+## 6. Gateway-related config you will care about | 最常见的 Gateway 配置
+
+Examples:
+
+```bash
+openclaw config get gateway.port
+openclaw config get gateway.bind
+openclaw config get gateway.auth.mode
+```
+
+Typical values include:
+
+常见值包括：
+
+- `gateway.port`
+- `gateway.bind`
+- `gateway.auth.mode`
+
+A common safe default is loopback bind.
+
+比较安全的默认值通常是 loopback。
+
+---
+
+## 7. Profiles and isolated environments | profile 和隔离环境
+
+OpenClaw supports isolated profiles.
+
+OpenClaw 支持隔离 profile。
+
+### Dev profile
+
+```bash
+openclaw --dev gateway
+```
+
+This uses a separate state directory, typically `~/.openclaw-dev/`.
+
+这会使用单独的状态目录，通常是 `~/.openclaw-dev/`。
+
+### Named profile
+
+```bash
+openclaw --profile work gateway
+```
+
+This uses a separate profile directory like `~/.openclaw-work/`.
+
+这会使用类似 `~/.openclaw-work/` 的独立 profile 目录。
+
+---
+
+## 8. Useful verification commands | 很有用的验证命令
+
+```bash
+openclaw config file
+openclaw config validate
+openclaw status
+openclaw gateway status
+```
+
+---
+
+## 9. Common mistakes | 常见错误
+
+### Mistake 1: editing the wrong profile
+
+If you use `--dev` or `--profile`, you may not be editing the config you think you are.
+
+如果你用了 `--dev` 或 `--profile`，你修改的可能不是你以为的那个配置。
+
+### Mistake 2: editing config but not validating
+
+Always run:
+
+```bash
+openclaw config validate
+```
+
+### Mistake 3: guessing config path from memory
+
+Just run:
+
+```bash
+openclaw config file
+```
+
+---
+
+## 10. If you are documenting OpenClaw | 如果你在写 OpenClaw 教程
+
+Do not hardcode too many assumptions.
+Prefer commands that let users inspect their own machine state.
+
+不要把太多假设写死。
+尽量用能让用户自己检查机器状态的命令。

@@ -1,99 +1,143 @@
 # Claw101
 
-A practical guide for OpenClaw users — from zero to productive.
+A practical, bilingual guide to **OpenClaw** that is checked against the **official docs** and real CLI output.
 
-OpenClaw 实用指南 — 从入门到上手。
+一份面向 **OpenClaw** 的中英双语实用指南，内容会尽量按**官方文档**和**真实 CLI 输出**核对，而不是凭印象乱写命令。
 
 ---
 
-## What is this?  这是什么？
+## Why this repo exists | 为什么做这个仓库
 
-**Claw101** is a community-driven guide for [OpenClaw](https://github.com/openclaw/openclaw), a personal AI assistant you run on your own devices. It works across WhatsApp, Telegram, Slack, Discord, Signal, iMessage, and more.
+OpenClaw is powerful, but a lot of beginner pain is not about installation itself.
+It is about:
 
-**Claw101** 是一份面向 [OpenClaw](https://github.com/openclaw/openclaw) 用户的社区指南。OpenClaw 是一个运行在你自己设备上的个人 AI 助手，支持 WhatsApp、Telegram、Slack、Discord、Signal、iMessage 等多个平台。
+- command names that are easy to guess wrong
+- config locations that people misremember
+- older examples floating around online
+- ChatGPT-style answers that sound plausible but are not exact
 
-## Why does this exist? | 为什么要做这个？
+OpenClaw 很强，但很多新手踩坑并不是因为“装不上”，而是因为：
 
-Official docs are great, but sometimes you just want someone to tell you:
-- "Here's what works"
-- "Here's what doesn't"
-- "Here's what nobody told me but I wish they had"
+- 命令名字很容易猜错
+- 配置文件位置容易记混
+- 网上有些示例已经过时
+- 很多 AI 回答“听起来对”，但实际命令不准确
 
-That's what Claw101 is for.
+**Claw101** is meant to be a practical companion to the official docs, not a replacement.
 
-官方文档很好，但有时你只是想要有人告诉你：
-- "这样做是对的"
-- "那样做会出问题"
-- "这些是没人告诉我但我希望早点知道的事"
+**Claw101** 的定位是官方文档的实用补充，不是替代品。
 
-这就是 Claw101 存在的意义。
+---
+
+## Principles | 原则
+
+This repo tries to follow three rules:
+
+1. **Prefer official docs first**
+2. **Only recommend commands that are verified**
+3. **Call out common wrong commands explicitly**
+
+这个仓库尽量遵守三条原则：
+
+1. **优先以官方文档为准**
+2. **只推荐已经核实过的命令**
+3. **把常见错命令直接指出来**
+
+---
 
 ## Quick Start | 快速开始
 
 ### 1. Install OpenClaw | 安装 OpenClaw
 
-Requires Node ≥22.
+Requires **Node.js 22+**.
 
-需要 Node ≥22。
+需要 **Node.js 22+**。
 
 ```bash
 npm install -g openclaw@latest
 ```
 
-### 2. Run the onboarding wizard | 运行引导向导
+### 2. Run onboarding | 跑引导向导
 
 ```bash
+openclaw onboard
+```
+
+Common variants:
+
+```bash
+openclaw onboard --flow quickstart
 openclaw onboard --install-daemon
 ```
 
-This wizard will:
-- Set up the Gateway (local control plane)
-- Configure your workspace
-- Connect your chat channels (WhatsApp, Telegram, etc.)
-- Install recommended skills
-
-向导会帮你：
-- 设置 Gateway（本地控制平面）
-- 配置工作空间
-- 连接聊天渠道（WhatsApp、Telegram 等）
-- 安装推荐的 skills
-
-### 3. Check that everything works | 检查是否正常
+常见变体：
 
 ```bash
+openclaw onboard --flow quickstart
+openclaw onboard --install-daemon
+```
+
+### 3. Check your setup | 检查当前状态
+
+```bash
+openclaw status
 openclaw doctor
+openclaw gateway status
 ```
 
-### 4. Send your first message | 发送第一条消息
+### 4. Fastest way to try it | 最快开始体验
 
 ```bash
-openclaw agent --message "Hello, what can you do?"
+openclaw dashboard
 ```
 
-That's it! You're up and running.
+This opens the Control UI and is usually the fastest first interaction.
 
-就这么简单！你已经可以开始了。
+这个命令会打开 Control UI，通常是最快的第一次上手方式。
 
-## Documentation | 文档
+---
 
-| Topic | 主题 | Link |
-|-------|------|------|
-| Installation | 安装 | [docs/installation.md](docs/installation.md) |
-| Configuration | 配置 | [docs/configuration.md](docs/configuration.md) |
-| Commands | 命令 | [docs/commands.md](docs/commands.md) |
-| Troubleshooting | 常见问题 | [docs/troubleshooting.md](docs/troubleshooting.md) |
+## What this repo covers | 这个仓库会写什么
 
-## Official Resources | 官方资源
+- installation that actually matches current OpenClaw
+- verified command usage
+- config file locations and editing tips
+- common mistakes and how to recover
+- bilingual notes for beginners
 
-- [GitHub](https://github.com/openclaw/openclaw)
-- [CLI Reference](https://docs.openclaw.ai/cli)
-- [Website](https://openclaw.ai/)
+- 与当前 OpenClaw 对得上的安装流程
+- 已核实的命令用法
+- 配置文件位置和修改方式
+- 常见错误和恢复方法
+- 面向新手的中英双语说明
+
+---
+
+## Docs in this repo | 仓库内文档
+
+- [docs/installation.md](docs/installation.md) — installation + first setup
+- [docs/commands.md](docs/commands.md) — commands you will actually use
+- [docs/configuration.md](docs/configuration.md) — config file location and edits
+- [docs/troubleshooting.md](docs/troubleshooting.md) — common mistakes and fixes
+
+---
+
+## Official references | 官方参考
+
+- OpenClaw docs: <https://docs.openclaw.ai>
+- OpenClaw repo: <https://github.com/openclaw/openclaw>
+
+If Claw101 and the official docs disagree, trust the official docs first.
+
+如果 Claw101 和官方文档冲突，请优先相信官方文档。
+
+---
 
 ## Contributing | 贡献
 
-Found something wrong? Know a better way? Open an issue or PR. This guide is for the community, by the community.
+PRs that improve correctness are especially welcome.
 
-发现了错误？知道更好的方法？欢迎提 issue 或 PR。这份指南来自社区，服务社区。
+尤其欢迎修正命令、路径、配置细节的 PR。
 
 ## License
 
