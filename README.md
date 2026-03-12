@@ -2,7 +2,7 @@
 
 A practical, bilingual guide to **OpenClaw** that is checked against the **official docs** and real CLI output.
 
-一份面向 **OpenClaw** 的中英双语实用指南，内容会尽量按**官方文档**和**真实 CLI 输出**核对，而不是凭印象乱写命令。
+一份面向 **OpenClaw** 的中英双语实用指南，内容按**官方文档**和**真实 CLI 输出**核对。
 
 ---
 
@@ -18,30 +18,14 @@ It is about:
 
 OpenClaw 很强，但很多新手踩坑并不是因为“装不上”，而是因为：
 
-- 命令名字很容易猜错
-- 配置文件位置容易记混
+- 命令名字不确定
+- 配置文件位置
 - 网上有些示例已经过时
 - 很多 AI 回答“听起来对”，但实际命令不准确
 
-**Claw101** is meant to be a practical companion to the official docs, not a replacement.
+**Claw101** is meant to be a practical companion to the official docs.
 
-**Claw101** 的定位是官方文档的实用补充，不是替代品。
-
----
-
-## Principles | 原则
-
-This repo tries to follow three rules:
-
-1. **Prefer official docs first**
-2. **Only recommend commands that are verified**
-3. **Call out common wrong commands explicitly**
-
-这个仓库尽量遵守三条原则：
-
-1. **优先以官方文档为准**
-2. **只推荐已经核实过的命令**
-3. **把常见错命令直接指出来**
+**Claw101** 的定位是官方文档的实用补充。
 
 ---
 
@@ -49,7 +33,7 @@ This repo tries to follow three rules:
 
 ### English
 
-Requires **Node.js 22+**.
+Requires **Node.js 22+**, Node 24 recommended.
 
 1. Install:
 
@@ -73,7 +57,7 @@ openclaw agent --message "Hello"
 
 ### 中文
 
-需要 **Node.js 22+**。
+最低需要 **Node.js 22+**, 推荐Node 24。
 
 1. 安装：
 

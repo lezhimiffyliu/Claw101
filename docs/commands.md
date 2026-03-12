@@ -182,11 +182,3 @@ openclaw gateway restart
 ```
 
 ---
-
-## 10. Practical advice | 实用建议
-
-OpenClaw has a big surface area.
-If you are writing docs or teaching someone else, prefer commands you have actually run.
-
-OpenClaw 的命令面很大。
-如果你在写文档或者教别人，尽量只写你真的跑过的命令。
