@@ -156,29 +156,3 @@ openclaw config file
 openclaw channels status
 openclaw logs --follow
 ```
-
----
-
-## 9. Common wrong guesses | 常见错猜
-
-These are exactly the kinds of commands people often guess wrong.
-
-这些就是大家最容易“凭感觉写错”的地方。
-
-### Wrong-ish / not the best beginner guidance
-
-```bash
-openclaw gateway service start
-openclaw gateway service stop
-openclaw gateway service restart
-```
-
-### Better
-
-```bash
-openclaw gateway start
-openclaw gateway stop
-openclaw gateway restart
-```
-
----
